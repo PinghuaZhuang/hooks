@@ -23,6 +23,14 @@ export default defineConfig({
       fileName: (format) => `index.${format}.js`,
     },
     rollupOptions: {
+      external: ['react', 'react-dom', 'antd'],
+      output: {
+        globals: {
+          react: 'react',
+          antd: 'antd',
+          'react-dom': 'react-dom',
+        },
+      },
       plugins: [
         typescript({
           target: 'es2015',
