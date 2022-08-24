@@ -5,7 +5,7 @@ interface KeyInput {
 }
 
 const keyMap = {
-  enter: 13, // 回车
+  enter: 'Enter', // 回车
 };
 
 type KeyMap = typeof keyMap;
@@ -19,8 +19,8 @@ const useKeyInput: KeyInputs = {} as KeyInputs;
 let k: keyof KeyMap;
 for (k in keyMap) {
   useKeyInput[k as keyof KeyMap] = function (callback, deps) {
-    return useCallback((e: any) => {
-      if ((e.keyCode as number) === keyMap[k]) {
+    return useCallback((e: KeyboardEvent) => {
+      if (e.code === keyMap[k]) {
         callback(e);
       }
     }, deps ?? []);
