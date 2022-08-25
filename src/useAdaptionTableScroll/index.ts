@@ -34,9 +34,9 @@ const calcTableLayout = debounce(
 
     // 计算表格高度
     const { height = 0, width } = container?.getBoundingClientRect() ?? {};
-    const { height: tableHeight = 60 } =
+    const { height: tableHeadHeight = 60 } =
       tableHead?.getBoundingClientRect() ?? {};
-    let y: Scroll['y'] = height - tableHeight - interpolation;
+    let y: Scroll['y'] = height - tableHeadHeight - interpolation;
     y = tableBody.scrollHeight > y ? y : null;
 
     if (container && isEmptyString(container.style.width)) {
@@ -52,7 +52,7 @@ const calcTableLayout = debounce(
 );
 
 // 根据表格容器自适应
-export default function useScroll(
+export default function useAdaptionTableScroll(
   className: string,
   resizeable = true,
   interpolation = 0,
