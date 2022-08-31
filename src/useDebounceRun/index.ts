@@ -1,3 +1,6 @@
+/**
+ * Promise 防抖. 返回一个Promise.
+ */
 import { useMemo, useCallback } from 'react';
 import { debounce } from 'lodash';
 import type { DebounceSettingsLeading, DebouncedFuncLeading } from 'lodash';
@@ -13,17 +16,17 @@ type Target = {
 
 let map = new WeakMap();
 
-function fire(target: Target, key: 'resolve' | 'reject', result: any) {
-  const { callbacks } = target;
+function fire(callbacks: Callbacks, key: 'resolve' | 'reject', result: any) {
   let i = 0;
   const len = callbacks.length;
   for (; i < len; i++) {
     const callback = callbacks[i][key];
     callback(result);
   }
-  target.callbacks = [];
   return result;
 }
+
+useDebounceRun.map = map;
 
 export default function useDebounceRun<T>(
   fn: (...rest: any[]) => Promise<T>,
@@ -36,9 +39,11 @@ export default function useDebounceRun<T>(
     }
     const run = debounce(
       (...rest) => {
+        const callbacks = target.callbacks;
+        target.callbacks = [];
         fn(...rest)
-          .then((result) => fire(target, 'resolve', result))
-          .catch((error) => fire(target, 'reject', error));
+          .then((result) => fire(callbacks, 'resolve', result))
+          .catch((error) => fire(callbacks, 'reject', error));
       },
       wait,
       settings,

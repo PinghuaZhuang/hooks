@@ -1,6 +1,3 @@
-/**
- * @file 常见的 visible 开关场景
- */
 import { useState, useCallback } from 'react';
 
 export default function useSwitch(defaultVisible = false) {
