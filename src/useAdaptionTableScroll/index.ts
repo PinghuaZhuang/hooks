@@ -4,7 +4,7 @@
  *    1. 容器(classname对应的DOM)必须是自适应的
  */
 import { useState, useEffect, useCallback, useRef } from 'react';
-import debounce from 'lodash/debounce';
+import { debounce } from 'lodash';
 
 type Scroll = {
   y: null | number;
