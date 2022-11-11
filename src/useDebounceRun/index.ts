@@ -14,7 +14,7 @@ type Target = {
   callbacks: Callbacks;
 };
 
-let map = new WeakMap();
+const map = new WeakMap();
 
 function fire(callbacks: Callbacks, key: 'resolve' | 'reject', result: any) {
   let i = 0;
@@ -30,7 +30,7 @@ useDebounceRun.map = map;
 
 export default function useDebounceRun<T>(
   fn: (...rest: any[]) => Promise<T>,
-  wait: number = 200,
+  wait = 200,
   settings: DebounceSettingsLeading,
 ) {
   const targetDebunceRun = useMemo(() => {
@@ -59,9 +59,9 @@ export default function useDebounceRun<T>(
   const run = useCallback(
     (...rest: any[]) =>
       new Promise((resolve, reject) => {
-        const { run, callbacks } = targetDebunceRun;
+        const { run: invoke, callbacks } = targetDebunceRun;
         callbacks.push({ resolve, reject });
-        run(...rest);
+        invoke(...rest);
       }),
     [targetDebunceRun],
   );
